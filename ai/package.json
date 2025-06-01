@@ -1,0 +1,16 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev:frontend": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@elevenlabs/client": "^0.1.6",
+    "vite": "^6.3.5"
+  }
+}
