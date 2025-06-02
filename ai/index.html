@@ -3,18 +3,265 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ElevenLabs Conversational AI</title>
+        <title>OS1</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            .container {
+                display: flex;
+                gap: 20px;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+            .left-panel {
+                flex: 1;
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+            .right-panel {
+                flex: 1;
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            h1 {
+                color: #333;
+                margin-bottom: 30px;
+            }
+            h2 {
+                color: #555;
+                margin-bottom: 20px;
+                font-size: 20px;
+            }
+            button {
+                padding: 12px 24px;
+                margin: 8px;
+                border: none;
+                border-radius: 6px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            #startButton {
+                background-color: #4CAF50;
+                color: white;
+            }
+            #startButton:hover:not(:disabled) {
+                background-color: #45a049;
+            }
+            #stopButton {
+                background-color: #f44336;
+                color: white;
+            }
+            #stopButton:hover:not(:disabled) {
+                background-color: #da190b;
+            }
+            button:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+            .status-section {
+                font-size: 18px;
+                margin: 20px 0;
+            }
+            .status-section p {
+                margin: 10px 0;
+            }
+            .input-group {
+                margin-bottom: 20px;
+                text-align: left;
+            }
+            .input-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: bold;
+                color: #555;
+            }
+            .input-group input {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                font-size: 16px;
+                box-sizing: border-box;
+            }
+            .input-group input:focus {
+                outline: none;
+                border-color: #4CAF50;
+            }
+            .input-group textarea {
+                width: 100%;
+                height: 120px;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                font-size: 14px;
+                font-family: Arial, sans-serif;
+                resize: vertical;
+                box-sizing: border-box;
+            }
+            .input-group textarea:focus {
+                outline: none;
+                border-color: #4CAF50;
+            }
+            .action-buttons {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+            #saveButton {
+                background-color: #2196F3;
+                color: white;
+                flex: 1;
+            }
+            #saveButton:hover {
+                background-color: #1976D2;
+            }
+            #callButton {
+                background-color: #FF9800;
+                color: white;
+                flex: 1;
+            }
+            #callButton:hover {
+                background-color: #F57C00;
+            }
+            .transcription-section {
+                margin-top: 30px;
+                text-align: left;
+            }
+            #transcriptionDisplay {
+                font-family: Verdana, sans-serif;
+                color: black;
+                background: white;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                padding: 15px;
+                height: 300px;
+                overflow-y: auto;
+                font-size: 14px;
+                line-height: 1.6;
+                white-space: pre-wrap;
+            }
+            .transcript-entry {
+                margin-bottom: 10px;
+                padding: 8px 0;
+                border-bottom: 1px solid #eee;
+            }
+            .transcript-entry:last-child {
+                border-bottom: none;
+            }
+            .speaker-label {
+                font-weight: bold;
+                color: #333;
+            }
+            .user-message {
+                color: #2196F3;
+            }
+            .ai-message {
+                color: #4CAF50;
+            }
+            .system-message {
+                color: #666;
+                font-style: italic;
+            }
+            .timestamp {
+                font-size: 12px;
+                color: #888;
+                margin-left: 10px;
+            }
+            .config-status {
+                margin-top: 30px;
+                padding: 20px;
+                background-color: #f9f9f9;
+                border-radius: 6px;
+            }
+            .config-status h3 {
+                margin-top: 0;
+                color: #555;
+            }
+            .listening-indicator {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background-color: #4CAF50;
+                border-radius: 50%;
+                margin-left: 10px;
+                animation: pulse 1.5s ease-in-out infinite alternate;
+            }
+            .speaking-indicator {
+                background-color: #ff4444;
+            }
+            @keyframes pulse {
+                from { opacity: 1; }
+                to { opacity: 0.3; }
+            }
+        </style>
     </head>
-    <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1>ElevenLabs Conversational AI</h1>
-        <div style="margin-bottom: 20px;">
-            <button id="startButton" style="padding: 10px 20px; margin: 5px;">Start Conversation</button>
-            <button id="stopButton" style="padding: 10px 20px; margin: 5px;" disabled>Stop Conversation</button>
+    <body>
+        <div class="container">
+            <!-- Left Panel - Conversation Controls -->
+            <div class="left-panel">
+                <h1>OS1</h1>
+                <div>
+                    <button id="startButton">Start Conversation</button>
+                    <button id="stopButton" disabled>Stop Conversation</button>
+                </div>
+                <div class="status-section">
+                    <p>Status: <span id="connectionStatus">Disconnected</span></p>
+                    <p>Agent is <span id="agentStatus">listening</span><span id="statusIndicator"></span></p>
+                </div>
+                
+                <!-- Real-time Transcription -->
+                <div class="transcription-section">
+                    <h2>Live Transcription</h2>
+                    <div id="transcriptionDisplay">
+                        <div class="system-message">Conversation transcription will appear here...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Phone & Knowledge Input -->
+            <div class="right-panel">
+                <h2>Configuration</h2>
+                
+                <div class="input-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input 
+                        type="tel" 
+                        id="phoneNumber" 
+                        placeholder="Enter phone number (e.g., +1-555-123-4567)"
+                        pattern="[+]?[0-9\s\-\(\)]+"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="knowledgeText">Knowledge Text:</label>
+                    <textarea 
+                        id="knowledgeText" 
+                        placeholder="Enter knowledge base text or instructions for the AI agent..."
+                    ></textarea>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="saveButton">Save Configuration</button>
+                    <button id="callButton">Make Call</button>
+                </div>
+
+                <div class="config-status">
+                    <h3>Configuration Status</h3>
+                    <p id="configStatus" style="color: #666; font-style: italic;">No configuration saved</p>
+                </div>
+            </div>
         </div>
-        <div style="font-size: 18px;">
-            <p>Status: <span id="connectionStatus">Disconnected</span></p>
-            <p>Agent is <span id="agentStatus">listening</span></p>
-        </div>
+
         <script type="module" src="./script.js"></script>
     </body>
 </html>
